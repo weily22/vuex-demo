@@ -95,9 +95,79 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 >})
 >```
 >
+>当需要在对象上添加新属性时：
+>
+>* 使用Vue.set(obj, 'newProp', 123) 或者以新对象替换老对象。
+>
+>```js
+>changeChinese (state, lang) {
+>	state.lang = lang.lang
+>	state.newObj = {...state.lang, newProp: 123}
+>}
+>```
+>
+>同步事务
+>
+>```js
+>    ...mapMutations([
+>      'ADD_JA',
+>      'changeLanguage'
+>    ]),
+>```
+>
+>```js
+>...mapMutations({
+>      Ja: 'ADD_JA',
+>      Zh: 'changeLanguage',
+>      Ko: 'changeLanguage'
+>    }),
+>```
+>
+>End
+
+**Action**
+
+>提交的是mutation，而不是直接变更状态
+>
+>可以包含任意异步操作
+>
+>Action 通过 `store.dispatch` 方法触发：
+>
+>```js
+>this.$store.dispatch('changeKO')
+>```
+>
+>```Js
+>changeFR ({commit,state},lang) {
+>    setTimeout(() => {
+>      commit('changeFR',lang)
+>    }, 300)
+>  }
+>```
+>
+>```js
+>...mapActions(['changeFR']),
+>```
+>
+>```js
+>...mapActions({
+>	FR: 'changeFR'
+>}),
+>```
+>
+>store.dispatch可以处理被触发的action处理函数返回的Promise，并且store.dispatch仍然返回Promise
+>
+>```js
+>changeDE2 () {
+>  	this.$store.dispatch('changeDE').then(() => {
+>    	this.DE = '已切成德语了'
+>  	})
+>}
+>```
 >
 >
->end
+>
+>End
 
 
 
